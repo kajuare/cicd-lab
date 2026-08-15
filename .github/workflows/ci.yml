@@ -1,3 +1,4 @@
+# Title of the CI - This title is the one that will apper in CI Git Actions.
 name: CI
 
 on:
