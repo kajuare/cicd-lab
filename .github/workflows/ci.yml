@@ -50,5 +50,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: cicd-lab-build
+          name: cicd-lab-build-${{ github.run_number }}
           path: dist/cicd-lab-build.zip
+          overwrite: true
