@@ -27,3 +27,28 @@ jobs:
 
       - name: Run tests
         run: pytest -v
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test          # 👈 solo corre si "test" pasó
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create build package
+        run: |
+          mkdir -p dist
+          zip -r dist/cicd-lab-build.zip app/ requirements.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cicd-lab-build
+          path: dist/cicd-lab-build.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cicd-lab-build
+          path: dist/cicd-lab-build.zip
