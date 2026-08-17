@@ -84,6 +84,27 @@ jobs:
         run: |
           docker push ghcr.io/${{ github.repository_owner }}/cicd-lab:${{ github.run_number }}
           docker push ghcr.io/${{ github.repository_owner }}/cicd-lab:latest
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docker
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Container Instances
+        uses: azure/aci-deploy@v1
+        with:
+          resource-group: rg-cicd-lab
+          dns-name-label: cicd-lab-${{ github.repository_owner }}
+          image: ghcr.io/${{ github.repository_owner }}/cicd-lab:${{ github.run_number }}
+          registry-login-server: ghcr.io
+          registry-username: ${{ github.actor }}
+          registry-password: ${{ secrets.GITHUB_TOKEN }}
+          name: cicd-lab-container
+          location: eastus
 
 
 

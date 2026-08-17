@@ -1,0 +1,6 @@
+# docker-compose.yml
+services:
+  cicd-lab:
+    image: ghcr.io/kajuare/cicd-lab:latest
+    container_name: cicd-lab-prod
+    restart: unless-stopped
