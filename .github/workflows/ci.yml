@@ -53,3 +53,17 @@ jobs:
           name: cicd-lab-build-${{ github.run_number }}
           path: dist/cicd-lab-build.zip
           overwrite: true
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t cicd-lab:${{ github.run_number }} .
+
+      - name: Run container (smoke test)
+        run: docker run --rm cicd-lab:${{ github.run_number }}
